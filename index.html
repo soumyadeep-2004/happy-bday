@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Bday Khari Jii</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-shadow: 3px 3px #000;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* The Retro TV Container */
+        .tv-frame {
+            width: 90%;
+            max-width: 700px;
+            aspect-ratio: 1/1;
+            border: 15px solid #333;
+            border-radius: 20px;
+            position: relative;
+            background: url('background.jpg') no-repeat center center;
+            background-size: cover;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Scanline Overlay */
+        .tv-frame::after {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        #video-player {
+            width: 100%;
+            height: 100%;
+            display: none; /* Hidden until Play is clicked */
+            object-fit: cover;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        button {
+            font-family: 'Press Start 2P', cursive;
+            padding: 15px 25px;
+            cursor: pointer;
+            border: 4px solid #fff;
+            background: #000;
+            color: #fff;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Celebration Glow Button */
+        #btn-celebration {
+            border-color: #ff00ff;
+            color: #ff00ff;
+        }
+
+        #btn-celebration.active {
+            animation: glow 0.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ff00ff; }
+            to { box-shadow: 0 0 30px #ff00ff; }
+        }
+
+        /* Message Overlay */
+        #bday-msg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border: 4px solid #ff00ff;
+            text-align: center;
+            display: none;
+            z-index: 5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>HAPPY BDAY KHARI JII</h1>
+
+    <div class="tv-frame">
+        <video id="video-player">
+            <source id="video-source" src="" type="video/mp4">
+        </video>
+
+        <div id="bday-msg">
+            <p style="color: #ff69b4;">HAPPY BIRTHDAY!</p>
+            <p style="font-size: 40px;">🎂</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="btn-play" onclick="playInitial()">▶ PLAY</button>
+        <button id="btn-celebration" style="display:none;" onclick="startCelebration()">CELEBRATION</button>
+        <button id="btn-moments" style="display:none;" onclick="playMoments()">MOMENTS</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('video-player');
+        const source = document.getElementById('video-source');
+        const bdayMsg = document.getElementById('bday-msg');
+        const playBtn = document.getElementById('btn-play');
+        const celebBtn = document.getElementById('btn-celebration');
+        const momentsBtn = document.getElementById('btn-moments');
+
+        function playInitial() {
+            // Start with Celebration video
+            source.src = "celebration.mp4";
+            video.load();
+            video.style.display = "block";
+            video.play();
+            
+            // Show sub-buttons
+            playBtn.style.display = "none";
+            celebBtn.style.display = "inline-block";
+            momentsBtn.style.display = "inline-block";
+        }
+
+        function startCelebration() {
+            bdayMsg.style.display = "block";
+            celebBtn.classList.add('active');
+            source.src = "celebration.mp4";
+            video.load();
+            video.play();
+            
+            // Hide message after 4 seconds
+            setTimeout(() => { bdayMsg.style.display = "none"; }, 4000);
+        }
+
+        function playMoments() {
+            bdayMsg.style.display = "none";
+            celebBtn.classList.remove('active');
+            source.src = "moments.mp4";
+            video.load();
+            video.play();
+        }
+    </script>
+</body>
+</html>
